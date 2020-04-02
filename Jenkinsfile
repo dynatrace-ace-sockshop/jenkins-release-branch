@@ -34,12 +34,12 @@ pipeline {
       }
     }
     
-    stage('Scan multibranch pipeline') {
+    /*stage('Scan multibranch pipeline') {
       steps {
         build job: "sockshop/${env.SERVICE} multibranch/release%2F${env.VERSION}",
           parameters: []
       }
-    }
+    }*/
     
   }
 }
