@@ -19,6 +19,7 @@ pipeline {
             sh "git config --global user.email ${env.GITHUB_USER_EMAIL}"
             sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${env.GITHUB_ORGANIZATION}/${env.SERVICE}"
             sh "version=`cat ${env.SERVICE}/version`"
+            script { env.VERSION = readFile("${env.SERVICE}/version") }
             sh "cd ${env.SERVICE}/ && git checkout -b release/`cat version`"
             sh "cd ${env.SERVICE}/ && git push --set-upstream https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${env.GITHUB_ORGANIZATION}/${env.SERVICE} release/`cat version`"
             sh "cd ${env.SERVICE}/ && git checkout master"
@@ -32,13 +33,13 @@ pipeline {
         }
       }
     }
-    /*
+    
     stage('Scan multibranch pipeline') {
       steps {
-        build job: "sockshop/{env.SERVICE} multibranch/release%2F${env.VERSION_NUMBER}",
+        build job: "sockshop/${env.SERVICE} multibranch/release%2F${env.VERSION}",
           parameters: []
       }
     }
-    */
+    
   }
 }
